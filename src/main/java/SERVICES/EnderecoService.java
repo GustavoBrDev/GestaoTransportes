@@ -3,12 +3,16 @@ package SERVICES;
 import MODELS.DTO.REQUEST.EnderecoRequestDTO;
 import MODELS.DTO.RESPONSE.FULLRESPONSE.EnderecoFullResponseDTO;
 import MODELS.ENTITY.Endereco;
+import MODELS.EXCEPTIONS.DadosInvalidosException;
 import MODELS.EXCEPTIONS.NaoEncontradoException;
 import REPOSITORY.EnderecoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +24,15 @@ public class EnderecoService {
 
         try {
             Endereco endereco = enderecoRequestDTO.converter();
+
+            String cepRegex = "^\\d{8}$"; // Regex para validar CEP (8 dígitos)
+            Pattern pattern = Pattern.compile(cepRegex);
+            Matcher matcher = pattern.matcher(endereco.getCep());
+
+            if (!matcher.matches()) {
+                throw new DadosInvalidosException("CEP inválido");
+            }
+
             return repository.save(endereco).converter();
         } catch (Exception e) {
             throw new RuntimeException("Erro ao criar endereço: " + e.getMessage());
@@ -53,9 +66,7 @@ public class EnderecoService {
         try {
 
             if ( repository.existsById(id) ) {
-                Endereco endereco = enderecoRequestDTO.converter();
-                endereco.setId(id);
-                return repository.save(endereco).converter();
+                return this.criarEndereco(enderecoRequestDTO);
             } else {
                 throw new NaoEncontradoException("Endereço não encontrado");
             }
