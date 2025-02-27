@@ -35,10 +35,10 @@ public class Motorista {
     @ManyToOne
     private Endereco endereco;
 
-    @OneToMany ( mappedBy = "motorista")
+    @OneToMany
     private List<Veiculo> veiculos;
 
-    @OneToMany ( mappedBy = "motorista")
+    @OneToMany
     private List<Rota> rotas;
 
     public MotoristaRotaResponseDTO converterSemRotas (){
