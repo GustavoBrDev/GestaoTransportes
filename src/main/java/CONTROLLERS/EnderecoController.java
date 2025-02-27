@@ -2,7 +2,6 @@ package CONTROLLERS;
 
 import MODELS.DTO.REQUEST.EnderecoRequestDTO;
 import MODELS.DTO.RESPONSE.FULLRESPONSE.EnderecoFullResponseDTO;
-import MODELS.ENTITY.Endereco;
 import SERVICES.EnderecoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -34,8 +33,8 @@ public class EnderecoController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<EnderecoFullResponseDTO> atualizarEndereco ( @RequestBody @Valid EnderecoRequestDTO enderecoRequestDTO, @RequestParam @Positive @NotNull Integer id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<EnderecoFullResponseDTO> atualizarEndereco ( @RequestBody @Valid EnderecoRequestDTO enderecoRequestDTO, @PathVariable @Positive @NotNull Integer id) {
 
         try {
             EnderecoFullResponseDTO endereco = service.atualizarEndereco(enderecoRequestDTO, id);
@@ -67,8 +66,8 @@ public class EnderecoController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deletarEndereco ( @RequestParam @Positive @NotNull Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarEndereco ( @PathVariable @Positive @NotNull Integer id) {
 
         try {
             service.deletarEndereco(id);

@@ -1,8 +1,8 @@
 package CONTROLLERS;
 
-import MODELS.DTO.REQUEST.RotaRequestDTO;
-import MODELS.DTO.RESPONSE.FULLRESPONSE.RotaFullResponseDTO;
-import SERVICES.RotaService;
+import MODELS.DTO.REQUEST.MotoristaRequestDTO;
+import MODELS.DTO.RESPONSE.FULLRESPONSE.MotoristaFullResponseDTO;
+import SERVICES.MotoristaService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,59 +17,60 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/rotas")
-public class RotaController {
+@RequestMapping("/motoristas")
+public class MotoristaController {
 
-    private RotaService service;
+    private MotoristaService service;
 
     @PostMapping
-    public ResponseEntity<RotaFullResponseDTO> criarRota ( @RequestBody @Valid RotaRequestDTO rotaRequestDTO) {
+    public ResponseEntity<MotoristaFullResponseDTO> criarMotorista ( @RequestBody @Valid MotoristaRequestDTO motorista) {
 
         try {
-            return new ResponseEntity<>(service.criarRota(rotaRequestDTO), HttpStatus.CREATED);
+            return new ResponseEntity<>(service.criarMotorista(motorista), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RotaFullResponseDTO> atualizarRota ( @RequestBody @Valid RotaRequestDTO rotaRequestDTO, @PathVariable @Positive @NotNull Integer id) {
+    public ResponseEntity<MotoristaFullResponseDTO> atualizarMotorista ( @RequestBody @Valid MotoristaRequestDTO motorista, @PathVariable @Positive @NotNull Integer id) {
 
         try {
-            return new ResponseEntity<>(service.atualizarRota(rotaRequestDTO, id), HttpStatus.OK);
+            return new ResponseEntity<>(service.atualizarMotorista(motorista, id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RotaFullResponseDTO> buscarRota ( @PathVariable @Positive @NotNull Integer id) {
+    public ResponseEntity<MotoristaFullResponseDTO> buscarMotorista ( @PathVariable @Positive @NotNull Integer id) {
 
         try {
-            return new ResponseEntity<>(service.buscarRota(id), HttpStatus.OK);
+            return new ResponseEntity<>(service.buscarMotorista(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping
-    public ResponseEntity<Page<RotaFullResponseDTO>> buscarTodasRotas ( @PageableDefault ( size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<Page<MotoristaFullResponseDTO>> buscarTodosMotoristas (@PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable) {
 
         try {
-            return new ResponseEntity<>(service.buscarTodasRotas(pageable), HttpStatus.OK);
+            return new ResponseEntity<>(service.buscarTodosMotoristas(pageable), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarRota ( @PathVariable @Positive @NotNull Integer id) {
+    public ResponseEntity<Void> deletarMotorista ( @PathVariable @Positive @NotNull Integer id) {
 
         try {
-            service.deletarRota(id);
+            service.deletarMotorista(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

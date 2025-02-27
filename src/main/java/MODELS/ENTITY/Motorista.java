@@ -1,5 +1,6 @@
 package MODELS.ENTITY;
 
+import MODELS.DTO.RESPONSE.FULLRESPONSE.MotoristaFullResponseDTO;
 import MODELS.DTO.RESPONSE.MotoristaRotaResponseDTO;
 import MODELS.DTO.RESPONSE.MotoristaVeiculoResponseDTO;
 import jakarta.persistence.*;
@@ -58,6 +59,18 @@ public class Motorista {
                 .telefone(telefone)
                 .email(email)
                 .endereco(endereco.converterSemId())
+                .rotas(rotas.stream().map(Rota::converterSemMotorista).toList())
+                .build();
+    }
+
+    public MotoristaFullResponseDTO converter() {
+        return MotoristaFullResponseDTO.builder()
+                .id(id)
+                .nome(nome)
+                .telefone(telefone)
+                .email(email)
+                .endereco(endereco.converterSemId())
+                .veiculos(veiculos.stream().map(Veiculo::converterSemMotorista).toList())
                 .rotas(rotas.stream().map(Rota::converterSemMotorista).toList())
                 .build();
     }

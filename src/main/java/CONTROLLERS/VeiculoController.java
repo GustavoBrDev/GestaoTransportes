@@ -52,7 +52,7 @@ public class VeiculoController {
         }
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<VeiculoFullResponseDTO> atualizarVeiculo (@RequestBody @Valid VeiculoRequestDTO veiculoRequestDTO, @PathVariable @Positive @NotNull Integer id) {
 
         try {
@@ -62,8 +62,8 @@ public class VeiculoController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deletarVeiculo (@RequestParam @Positive @NotNull Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarVeiculo (@PathVariable @Positive @NotNull Integer id) {
 
         try {
             service.deletarVeiculo(id);
