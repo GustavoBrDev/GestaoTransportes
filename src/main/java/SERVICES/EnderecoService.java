@@ -3,12 +3,11 @@ package SERVICES;
 import MODELS.DTO.REQUEST.EnderecoRequestDTO;
 import MODELS.DTO.RESPONSE.FULLRESPONSE.EnderecoFullResponseDTO;
 import MODELS.ENTITY.Endereco;
+import MODELS.EXCEPTIONS.NaoEncontradoException;
 import REPOSITORY.EnderecoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import javax.naming.NotContextException;
 import org.springframework.data.domain.Pageable;
 
 @Service
@@ -33,7 +32,7 @@ public class EnderecoService {
             if ( repository.existsById(id) ) {
                 return repository.findById(id).get().converter();
             } else {
-                throw new NotContextException("Endereço não encontrado");
+                throw new NaoEncontradoException("Endereço não encontrado");
             }
 
         } catch (Exception e) {
@@ -58,7 +57,7 @@ public class EnderecoService {
                 endereco.setId(id);
                 return repository.save(endereco).converter();
             } else {
-                throw new NotContextException("Endereço não encontrado");
+                throw new NaoEncontradoException("Endereço não encontrado");
             }
 
         } catch (Exception e) {
@@ -72,7 +71,7 @@ public class EnderecoService {
             if ( repository.existsById(id) ) {
                 repository.deleteById(id);
             } else {
-                throw new NotContextException("Endereço não encontrado");
+                throw new NaoEncontradoException("Endereço não encontrado");
             }
 
         } catch (Exception e) {

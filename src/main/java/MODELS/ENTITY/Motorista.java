@@ -1,5 +1,7 @@
 package MODELS.ENTITY;
 
+import MODELS.DTO.RESPONSE.MotoristaRotaResponseDTO;
+import MODELS.DTO.RESPONSE.MotoristaVeiculoResponseDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -38,4 +40,25 @@ public class Motorista {
     @OneToMany
     private List<Rota> rotas;
 
+    public MotoristaRotaResponseDTO converterSemRotas (){
+        return MotoristaRotaResponseDTO.builder()
+                .id(id)
+                .nome(nome)
+                .telefone(telefone)
+                .email(email)
+                .endereco(endereco.converterSemId())
+                .veiculos( veiculos.stream().map(Veiculo::converterSemMotorista).toList())
+                .build();
+    }
+
+    public MotoristaVeiculoResponseDTO converterSemVeiculo() {
+        return MotoristaVeiculoResponseDTO.builder()
+                .id(id)
+                .nome(nome)
+                .telefone(telefone)
+                .email(email)
+                .endereco(endereco.converterSemId())
+                .rotas(rotas.stream().map(Rota::converterSemMotorista).toList())
+                .build();
+    }
 }

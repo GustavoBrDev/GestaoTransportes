@@ -1,5 +1,7 @@
 package MODELS.ENTITY;
 
+import MODELS.DTO.RESPONSE.FULLRESPONSE.RotaFullResponseDTO;
+import MODELS.DTO.RESPONSE.RotaResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,4 +33,23 @@ public class Rota {
 
     @ManyToOne
     private Motorista motorista;
+
+    public RotaFullResponseDTO converter() {
+        return RotaFullResponseDTO.builder()
+                .id(this.id)
+                .origem(this.origem.converterSemId())
+                .destino(this.destino.converterSemId())
+                .distancia(this.distancia)
+                .motorista(this.motorista.converterSemRotas())
+                .build();
+    }
+
+    public RotaResponseDTO converterSemMotorista() {
+        return RotaResponseDTO.builder()
+                .id(this.id)
+                .origem(this.origem.converterSemId())
+                .destino(this.destino.converterSemId())
+                .distancia(this.distancia)
+                .build();
+    }
 }

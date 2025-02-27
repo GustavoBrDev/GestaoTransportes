@@ -1,5 +1,7 @@
 package MODELS.ENTITY;
 
+import MODELS.DTO.RESPONSE.FULLRESPONSE.VeiculoFullResponseDTO;
+import MODELS.DTO.RESPONSE.VeiculoResponseDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +25,23 @@ public class Veiculo {
     private String placa;
     @ManyToOne
     private Motorista motorista;
+
+    public VeiculoResponseDTO converterSemMotorista (){
+        return VeiculoResponseDTO.builder()
+                .id(this.id)
+                .marca(this.marca)
+                .modelo(this.modelo)
+                .placa(this.placa)
+                .build();
+    }
+
+    public VeiculoFullResponseDTO converter () {
+        return VeiculoFullResponseDTO.builder()
+                .id(this.id)
+                .marca(this.marca)
+                .modelo(this.modelo)
+                .placa(this.placa)
+                .motorista(this.motorista.converterSemVeiculo())
+                .build();
+    }
 }

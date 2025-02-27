@@ -2,6 +2,7 @@ package CONTROLLERS;
 
 import MODELS.DTO.REQUEST.EnderecoRequestDTO;
 import MODELS.DTO.RESPONSE.FULLRESPONSE.EnderecoFullResponseDTO;
+import MODELS.ENTITY.Endereco;
 import SERVICES.EnderecoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
@@ -21,27 +24,57 @@ public class EnderecoController {
     private EnderecoService service;
 
     @PostMapping
-    public EnderecoFullResponseDTO criarEndereco ( @RequestBody @Valid EnderecoRequestDTO enderecoRequestDTO) {
-        return service.criarEndereco(enderecoRequestDTO);
+    public ResponseEntity<EnderecoFullResponseDTO> criarEndereco (@RequestBody @Valid EnderecoRequestDTO enderecoRequestDTO) {
+
+        try {
+            EnderecoFullResponseDTO endereco = service.criarEndereco(enderecoRequestDTO);
+            return new ResponseEntity<>(endereco, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping
-    public EnderecoFullResponseDTO atualizarEndereco ( @RequestBody @Valid EnderecoRequestDTO enderecoRequestDTO, @RequestParam @Positive @NotNull Integer id) {
-        return service.atualizarEndereco(enderecoRequestDTO, id);
+    public ResponseEntity<EnderecoFullResponseDTO> atualizarEndereco ( @RequestBody @Valid EnderecoRequestDTO enderecoRequestDTO, @RequestParam @Positive @NotNull Integer id) {
+
+        try {
+            EnderecoFullResponseDTO endereco = service.atualizarEndereco(enderecoRequestDTO, id);
+            return new ResponseEntity<>(endereco, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
-    public EnderecoFullResponseDTO buscarEndereco ( @PathVariable @Positive @NotNull Integer id) {
-        return service.buscarEndereco(id);
+    public ResponseEntity<EnderecoFullResponseDTO> buscarEndereco ( @PathVariable @Positive @NotNull Integer id) {
+
+        try {
+            EnderecoFullResponseDTO endereco = service.buscarEndereco(id);
+            return new ResponseEntity<>(endereco, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping
-    public Page<EnderecoFullResponseDTO> buscarTodosEnderecos ( @PageableDefault ( size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable ) {
-        return service.buscarTodosEnderecos(pageable);
+    public ResponseEntity<Page<EnderecoFullResponseDTO>> buscarTodosEnderecos ( @PageableDefault ( size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable ) {
+
+        try {
+            Page<EnderecoFullResponseDTO> enderecos = service.buscarTodosEnderecos(pageable);
+            return new ResponseEntity<>(enderecos, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping
-    public void deletarEndereco ( @RequestParam @Positive @NotNull Integer id) {
-        service.deletarEndereco(id);
+    public ResponseEntity<Void> deletarEndereco ( @RequestParam @Positive @NotNull Integer id) {
+
+        try {
+            service.deletarEndereco(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
