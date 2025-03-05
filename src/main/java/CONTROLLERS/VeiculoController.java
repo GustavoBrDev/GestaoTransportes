@@ -30,7 +30,7 @@ public class VeiculoController {
     private VeiculoService service;
 
     @Tag(name = "Veículos", description = "Gerenciamento de veículos")
-    @Operation(summary = "Cria um veículo", description = "Cria um veículo", tags = {"Veículos"})
+    @Operation(summary = "Cria um veículo", description = "Cria um veículo")
     @ApiResponse(responseCode = "201", description = "Veículo criado com sucesso", content = @Content( schema = @Schema( implementation = VeiculoFullResponseDTO.class ),
             examples = @ExampleObject( value = "{\n" +
                     "    \"id\": 1,\n" +
