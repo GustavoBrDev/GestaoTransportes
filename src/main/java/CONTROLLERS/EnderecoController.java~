@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/enderecos")
+@Tag( name = "Endereços", description = "Gerenciamento de endereços" )
 public class EnderecoController {
 
     private EnderecoService service;
